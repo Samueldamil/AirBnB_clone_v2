@@ -73,7 +73,7 @@ class HBNBCommand(cmd.Cmd):
                 pline = pline[2].strip()  # pline is now str
                 if pline:
                     # check for *args or **kwargs
-                    if pline[0] == '{' and pline[-1] =='}'\
+                    if pline[0] == '{' and pline[-1] == '}'\
                             and type(eval(pline)) is dict:
                         _args = pline
                     else:
@@ -116,7 +116,7 @@ class HBNBCommand(cmd.Cmd):
     def do_create(self, args):
         """ Create an object of any class"""
         args = args.split()
-        #print args
+        # print args
         if not args:
             print("** class name missing **")
             return
@@ -137,7 +137,7 @@ class HBNBCommand(cmd.Cmd):
                         new_instance.__dict__.update({
                             attribute[0]: attribute[1].strip('"')})
                     elif (attribute[1].replace('.', '', 1).isdigit()
-                            or attribute[1].replace('.', '', 1).replace('-','', 1)):
+                            or attribute[1].replace('.', '', 1).replace('-', '', 1)):
                         if attribute[1].isdigit():
                             new_instance.__dict__.update({
                                 attribute[0]: int(attribute[1])})

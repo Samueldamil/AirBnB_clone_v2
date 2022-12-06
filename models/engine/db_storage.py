@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""DBStorage class AirBnB"""
+"""DBStorage class for AirBnB"""
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session, scoped_session, relationship
 from os import getenv
@@ -13,6 +13,7 @@ from models.review import Review
 
 
 class DBStorage():
+    """DBStorage class"""
     __engine = None
     __session = None
 
@@ -27,12 +28,13 @@ class DBStorage():
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.format(
             mysql_user, mysql_pwd, mysql_host, mysql_db), pool_pre_ping=True)
 
-        """Drop all Tables"""
-        if mysql_env == "tests":
+        """DROP ALL TABLES"""
+        if mysql_env == 'test':
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
-        """show all data"""
+        """show all data
+        """
         if cls:
             objs = self.__session.query(cls).all()
 
@@ -52,21 +54,12 @@ class DBStorage():
         return new_dict
 
     def new(self, obj):
-        """Add obj in the database"""
+        """Add the object in the databse"""
         if obj:
             self.__session.add(obj)
 
-    def save(self):
-        """Commit all changes of the current database"""
-        self.session.commit()
-
-    def delete(self, obj=None):
-        """Delete from the current database session"""
-        if obj:
-            self.__session.delete(obj)
-
     def reload(self):
-        """Creates all table in the database"""
+        """create all tables in the database"""
         Base.metadata.create_all(self.__engine)
 
         self.__session = sessionmaker(bind=self.__engine,
@@ -74,6 +67,16 @@ class DBStorage():
 
         Session = scoped_session(self.__session)
         self.__session = Session()
+
+    def save(self):
+        """Commit all changes of the current
+        database session"""
+        self.__session.commit()
+
+    def delete(self, obj=None):
+        """Delete from the current database"""
+        if obj:
+            self.__session.delete(obj)
 
     def close(self):
         """
